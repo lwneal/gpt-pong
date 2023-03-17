@@ -6,8 +6,7 @@ const player = {
   y: canvas.height / 2 - 50,
   width: 10,
   height: 100,
-  color: "WHITE",
-  dy: 5
+  color: "WHITE"
 };
 
 const ai = {
@@ -42,7 +41,6 @@ function drawCircle(x, y, radius, color) {
 }
 
 function update() {
-  player.y += player.dy;
   ai.y += ai.dy;
 
   ball.x += ball.dx;
@@ -106,6 +104,7 @@ function updatePlayerPosition(event) {
   player.y = clientY - rect.top - player.height / 2;
 
   // Constrain the player paddle to stay within the canvas
+
   if (player.y < 0) {
     player.y = 0;
   } else if (player.y + player.height > canvas.height) {
