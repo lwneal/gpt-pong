@@ -1,6 +1,11 @@
 const canvas = document.getElementById("pong");
 const ctx = canvas.getContext("2d");
 
+const score = {
+  player: 0,
+  ai: 0
+};
+
 const player = {
   x: 20,
   y: canvas.height / 2 - 50,
@@ -26,6 +31,13 @@ const ball = {
   dx: 5,
   dy: 5
 };
+
+function drawScore() {
+  ctx.font = '48px monospace';
+  ctx.fillStyle = 'WHITE';
+  ctx.fillText(score.player, canvas.width / 4, 50);
+  ctx.fillText(score.ai, (3 * canvas.width) / 4, 50);
+}
 
 function drawRect(x, y, width, height, color) {
   ctx.fillStyle = color;
@@ -64,7 +76,13 @@ function update() {
     ball.dx = -ball.dx;
   }
 
-  if (ball.x + ball.radius > canvas.width || ball.x - ball.radius < 0) {
+  if (ball.x + ball.radius > canvas.width) {
+    score.player++;
+    ball.x = canvas.width / 2;
+    ball.y = canvas.height / 2;
+    ball.dx = -ball.dx;
+  } else if (ball.x - ball.radius < 0) {
+    score.ai++;
     ball.x = canvas.width / 2;
     ball.y = canvas.height / 2;
     ball.dx = -ball.dx;
@@ -82,6 +100,7 @@ function render() {
   drawRect(player.x, player.y, player.width, player.height, player.color);
   drawRect(ai.x, ai.y, ai.width, ai.height, ai.color);
   drawCircle(ball.x, ball.y, ball.radius, ball.color);
+  drawScore();
 }
 
 function gameLoop() {
