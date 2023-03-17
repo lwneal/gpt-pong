@@ -89,4 +89,14 @@ function render() {
 function gameLoop() {
   update();
   render();
-    //TODO
+  requestAnimationFrame(gameLoop);
+}
+
+canvas.addEventListener("mousemove", (event) => {
+  let rect = canvas.getBoundingClientRect();
+  let mouseY = event.clientY - rect.top;
+  player.y = mouseY - player.height / 2;
+});
+
+gameLoop();
+
