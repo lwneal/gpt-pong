@@ -11,7 +11,7 @@ const player = {
   y: canvas.height / 2 - 50,
   width: 10,
   height: 100,
-  color: "WHITE"
+  color: "GREEN"
 };
 
 const ai = {
@@ -19,7 +19,7 @@ const ai = {
   y: canvas.height / 2 - 50,
   width: 10,
   height: 100,
-  color: "WHITE",
+  color: "RED",
   dy: 5
 };
 
@@ -34,7 +34,7 @@ const ball = {
 
 function drawScore() {
   ctx.font = '48px monospace';
-  ctx.fillStyle = 'WHITE';
+  ctx.fillStyle = 'ORANGE';
   ctx.fillText(score.player, canvas.width / 4, 50);
   ctx.fillText(score.ai, (3 * canvas.width) / 4, 50);
 }
@@ -45,7 +45,10 @@ function drawRect(x, y, width, height, color) {
 }
 
 function drawCircle(x, y, radius, color) {
-  ctx.fillStyle = color;
+  let gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
+  gradient.addColorStop(0, "YELLOW");
+  gradient.addColorStop(1, "WHITE");
+  ctx.fillStyle = gradient;
   ctx.beginPath();
   ctx.arc(x, y, radius, 0, Math.PI * 2, false);
   ctx.closePath();
@@ -97,6 +100,13 @@ function update() {
 
 function render() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  let bgGradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+  bgGradient.addColorStop(0, "#282828");
+  bgGradient.addColorStop(1, "#000000");
+  ctx.fillStyle = bgGradient;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
   drawRect(player.x, player.y, player.width, player.height, player.color);
   drawRect(ai.x, ai.y, ai.width, ai.height, ai.color);
   drawCircle(ball.x, ball.y, ball.radius, ball.color);
