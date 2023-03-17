@@ -96,7 +96,15 @@ canvas.addEventListener("mousemove", (event) => {
   let rect = canvas.getBoundingClientRect();
   let mouseY = event.clientY - rect.top;
   player.y = mouseY - player.height / 2;
+
+  // Constrain the player paddle to stay within the canvas
+  if (player.y < 0) {
+    player.y = 0;
+  } else if (player.y + player.height > canvas.height) {
+    player.y = canvas.height - player.height;
+  }
 });
+
 
 gameLoop();
 
