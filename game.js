@@ -92,10 +92,18 @@ function gameLoop() {
   requestAnimationFrame(gameLoop);
 }
 
-canvas.addEventListener("mousemove", (event) => {
+function updatePlayerPosition(event) {
   let rect = canvas.getBoundingClientRect();
-  let mouseY = event.clientY - rect.top;
-  player.y = mouseY - player.height / 2;
+  let clientY;
+
+  // Check if event is from a touch or mouse event
+  if (event.type === "touchmove") {
+    clientY = event.touches[0].clientY;
+  } else {
+    clientY = event.clientY;
+  }
+
+  player.y = clientY - rect.top - player.height / 2;
 
   // Constrain the player paddle to stay within the canvas
   if (player.y < 0) {
@@ -103,8 +111,11 @@ canvas.addEventListener("mousemove", (event) => {
   } else if (player.y + player.height > canvas.height) {
     player.y = canvas.height - player.height;
   }
-});
+}
 
+// Add event listeners for both mouse and touch events
+canvas.addEventListener("mousemove", updatePlayerPosition);
+canvas.addEventListener("touchmove", updatePlayerPosition);
 
 gameLoop();
 
